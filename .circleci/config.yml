@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker pull lorf/test-docker-image
+      - run: docker pull lorf/test-docker-image || true
       - run: docker build --cache-from=lorf/test-docker-image -t lorf/test-docker-image .
       - run: docker images
       - run: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
