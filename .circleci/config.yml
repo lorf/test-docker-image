@@ -3,11 +3,17 @@ jobs:
   build:
     docker:
       - image: docker:stable-git
+    environment:
+      BUILD_IMAGE: lorf/test-docker-image
+    branches:
+      only:
+        - master
     steps:
       - checkout
       - setup_remote_docker
-      - run: docker pull lorf/test-docker-image || true
-      - run: docker build --cache-from=lorf/test-docker-image -t lorf/test-docker-image .
-      - run: docker images
-      - run: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      - run: docker push lorf/test-docker-image
+      - run: |
+          docker pull "$BUILD_IMAGE" || true
+          docker build --cache-from="$BUILD_IMAGE" -t "$BUILD_IMAGE" .
+          docker images
+          docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+          docker push "$BUILD_IMAGE"
