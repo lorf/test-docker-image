@@ -12,6 +12,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: |
+          set -x
           docker pull "$BUILD_IMAGE" || true
           docker build --cache-from="$BUILD_IMAGE" -t "$BUILD_IMAGE" .
           docker images
