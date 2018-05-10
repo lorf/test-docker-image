@@ -16,5 +16,5 @@ jobs:
           docker pull "$BUILD_IMAGE" || true
           docker build --cache-from="$BUILD_IMAGE" -t "$BUILD_IMAGE" .
           docker images
-          docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+          ./docker-login.sh
           docker push "$BUILD_IMAGE"
